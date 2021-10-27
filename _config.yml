@@ -20,7 +20,7 @@ title                    : "Hongjunland"
 title_separator          : "-"
 subtitle                 : "version 1.0" # site tagline that appears below site title in masthead
 name                     : "이홍준(Lee Hongjun)"
-description              : "노력하고 싶은 바보"
+description              : "꾸준하게 하자"
 url                      : "https://hongjunland.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "https://github.com/hongjunland/hongjunland.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -103,7 +103,7 @@ analytics:
 # Site Author
 author:
   name             : "LeeHongjun"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "https://avatars.githubusercontent.com/u/48708288?v=4" # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "노력하고 싶은 바보"
   location         : "EveryWhere"
   email            : "zunza96@gmail.com"
