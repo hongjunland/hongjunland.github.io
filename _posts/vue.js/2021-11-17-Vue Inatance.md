@@ -70,9 +70,10 @@ tags:
 |destroyed|Vue Instance가 제거된 후에 호출.
 
 #### 3.3 생명주기 예제
+
 ```javascript
 <div id="app">
-    <h3>{{message}}</h3>
+    <h3> { {message} } </h3>
 </div>
 <script>
     new Vue({
