@@ -144,12 +144,13 @@ tags:
 
 ### 2.5 v-show와 v-if의 차이점
 
-| |v-if|v-show
-|--|--|--
-|렌더링|false일경우 x|항상 O
-|false|엘리먼트 삭제|display:none 적용
-|template 지원| O | X 
-|v-else지원| O | X
+* 
+    | |v-if|v-show
+    |--|--|--
+    |렌더링|false일경우 x|항상 O
+    |false|엘리먼트 삭제|display:none 적용
+    |template 지원| O | X 
+    |v-else지원| O | X
 
 ### 2.6 v-for
 
