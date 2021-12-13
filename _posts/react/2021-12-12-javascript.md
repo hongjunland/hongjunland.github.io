@@ -13,7 +13,7 @@ tags:
 
 * ES6 Classes
 * let & const
-* 화살표 기능
+* 화살표 함수
 * Destructuring assignment(구조 분해 할당)
 * Map & Filter
 * ES6 Module System
@@ -103,6 +103,56 @@ tags:
         }
     }
     ```
+
+## 4. 화살표 함수
+
+* ES6 부터 요즘 코드 스타일을 적용해서 가독성과 간결함을 향상.
+* "function" 키워드 생략
+* () 기호 뒤에 => 를 사용
+
+```js
+// 일반
+const ex1Function = function(){
+    //내용
+}
+// 화살표
+const ex1Function = () => {
+    // 내용
+}
+```
+
+* parameter가 1개면 더 짧게 가능
+
+```js
+const exFunction = firstName => { return firstName;}
+```
+
+* 인라인 함수로 선언시 return 키워드를 생략해여, 암시적 반환 가능
+
+```js
+const exFunction = () => 'Hello World!' ;
+exFunction();
+```
+
+* React 적용시
+
+```js
+const HelloWorld = (props) => {
+    return <h1> {props.hello}</h1>;
+}
+```
+
+* ES6 + React
+
+```js
+class HelloWorld extends Component{
+    render(){
+        return (
+            <h1>{props.hello}</h1>;
+        );
+    }
+}
+```
 
 ## 참조
 * https://dev.to/nsebhastian/javascript-basics-before-you-learn-react-38en#es6-classes
