@@ -9,7 +9,7 @@ tags:
     - react
 ---
 
-## 1. 리액트를 하기 전에 알아야 할 JS
+## 1. React 공부 하기 전, 알아야 할 JavaScript 개념
 
 * ES6 Classes
 * let & const
