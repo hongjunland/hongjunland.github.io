@@ -80,6 +80,7 @@ tags:
 
 ### 2.2 JSX에 표현식 포함시키기
 
+* HTML보단 JavaScript에 가까워서 React DOM은 camelCase 사용.
 * JSX에 EL(표현식) 포함 - 변수
 
     ```js
@@ -148,6 +149,60 @@ tags:
 
     ```js
     const element = <img src={user.avatarUrl}></img>;
+    ```
+    -> 어트리뷰트에 js표현식을 삽일할 때 중괄호 주변에 따옴표 입력 금지.
+
+### 2.3 JSX로 자식 정의하기
+
+* JSX 태그는 자식을 포함 가능.
+    
+    ```js
+    const element = (
+    <div>
+        <h1>Hello!</h1>
+        <h2>Good to see you here.</h2>
+    </div>
+    );
+    ```
+
+* 주입 공격 방지(보안)
+
+    ```js
+    const title = response.potentiallyMaliciousInput;
+    // 이것은 안전합니다.
+    const element = <h1>{title}</h1>;
+    ```
+
+    기본적으로 React DOM은 JSX에 삽입된 모든 값을 렌더링하기 전에, 이스케이프 하기 때문에 App에 명시적으로 작성되지 않은 내용은 주입되지 않음.(XSS:cross-site-scripting 방지) 
+
+* 객체 표현 : React.createElement() 호출
+
+    ```js
+    const element = (
+    <h1 className="greeting">
+        Hello, world!
+    </h1>
+    );
+
+    // 동일한 결과
+    const element = React.createElement(
+        'h1',
+        {className: 'greeting'},
+        'Hello, world!'
+    );
+    ```
+
+    다음과 같은 객체 생성
+
+    ```js
+    // 주의: 다음 구조는 단순화되었습니다
+    const element = {
+        type: 'h1',
+        props: {
+            className: 'greeting',
+            children: 'Hello, world!'
+        }
+    };
     ```
 
 ## 3. props & state
