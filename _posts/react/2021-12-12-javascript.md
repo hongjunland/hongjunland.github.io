@@ -89,20 +89,20 @@ tags:
 * var 키워드는 전역변수 이므로 ES6에서 const 와 let이 탄생
 * const 와 let 둘다 지역적인 scope 기능
 * const는 값 변경 불가, let은 변경 가능
-* React 적용
+* React 적용시
 
-```js
-import React, {Component} from 'react'
+    ```js
+    import React, {Component} from 'react'
 
-class App extends Component{
-    render(){
-        const greeting = 'Welcome to React';
-        return (
-            \<h1\>\{greeting\}\<\h1\>
-        )
+    class App extends Component{
+        render(){
+            const greeting = 'Welcome to React';
+            return (
+                <h1>{greeting}</h1>
+            )
+        }
     }
-}
-```
+    ```
 
 ## 참조
 * https://dev.to/nsebhastian/javascript-basics-before-you-learn-react-38en#es6-classes
