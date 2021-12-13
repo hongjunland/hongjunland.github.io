@@ -205,9 +205,189 @@ tags:
     };
     ```
 
-## 3. props & state
+## 3. Component & Props
 
-## 4. 생명주기
+* 컴포넌트를 통해 UI를 재사용 가능한 부분으로 나누고, 각 부분을 개별적으로 확인할 수 있음.
+* props라는 임의의 입력을 받는다.
+
+## 3.1 Component
+
+* 컴포넌트 이름은 항상 대문자로 시작해야 함.
+* 컴포넌트를 정의하는 가장 간단한 방법은 JavaScript 함수를 작성.
+
+    ```js
+    // '함수 컴포넌트'라고 호칭함.
+    function Welcome(props) {
+        return <h1>Hello, {props.name}</h1>;
+    }
+
+    // ES6 class
+    class Welcome extends React.Component {
+        render() {
+            return <h1>Hello, {this.props.name}</h1>;
+        }
+    }
+    ```
+* 컴포넌트 렌더링
+
+    * 기본 정의
+        ```js
+        // 기본 DOM 
+        const element = <div />;
+        // 사용자 정의 컴포넌트
+        const element = <Welcome name="Sara" />
+        ```
+
+    * 예시 
+
+        ```js
+        function Welcome(props) {
+            return <h1>Hello, {props.name}</h1>;
+        }
+
+        const element = <Welcome name="Sara" />;
+        ReactDOM.render(
+            element,
+            document.getElementById('root')
+        );
+        ```
+    * 출력
+
+        ```js
+        Hello, Sara
+        ```
+* 일어나는 과정
+
+    1. \<Welcome name="Sara" \/\> 로 ReactDOM.render()를 호출.
+    2. React는 {name: 'Sara'}를 props로 하여 Welcome 컴포넌트 호출.
+    3. Welcome 컴포넌트는 결과적으로 \<h1\>Hello, Sara\</h1\> 를 반환
+    4. React DOM은 \<h1\>Hello, Sara\</h1\> 와 일치하도록 DOM을 효율적으로 업데이트.
+
+## 3.2 컴포넌트 합성
+
+* 컴포넌트는 자신의 출력에 다른 컴포넌트를 참조 할 수 있다.
+* 모든 세부 단계에서 동일한 추상 컴포넌트를 사용할수 있음.
+* 버튼, 폼, 다이얼로 화면등의 모든 것들이 컴포넌트로 표현.
+
+* Welcome 컴포넌트를 여러 번 렌더링하는 App.
+
+    ```js
+    function Welcome(props) {
+        return <h1>Hello, {props.name}</h1>;
+    }
+
+    function App() {
+    return (
+        <div>
+        <Welcome name="Sara" />
+        <Welcome name="Cahal" />
+        <Welcome name="Edite" />
+        </div>
+    );
+    }
+
+    ReactDOM.render(
+    <App />,
+        document.getElementById('root')
+    );
+   
+    ```
+
+    출력
+    ```js
+    Hello, Sara
+    Hello, Cahal
+    Hello, Edite
+    ```
+
+## 3.3 컴포넌트 추출
+
+* 컴포넌트를 여러 개의 작은 컴포넌트로 나눌 수 있음.
+* 분리함으로써 재사용 가능한 컴포넌트를 만들어 놓으면 나중에 유리.
+* Button, Panel, Avatar, App, FeedStory, Comment 등등
+
+* 추출 전
+
+    ```js
+    function Comment(props) {
+    return (
+        <div className="Comment">
+        <div className="UserInfo">
+            <img className="Avatar"
+            src={props.author.avatarUrl}
+            alt={props.author.name}
+            />
+            <div className="UserInfo-name">
+            {props.author.name}
+            </div>
+        </div>
+        <div className="Comment-text">
+            {props.text}
+        </div>
+        <div className="Comment-date">
+            {formatDate(props.date)}
+        </div>
+        </div>
+    );
+    }
+    ```
+
+* Avatar 추출
+
+    * 자신이 Comment 내에서 렌더링 된다는 것을 알 필요가 없어서, props의 이름을 author에서 더욱 일반화 된 user로 변경.
+
+    * props의 이름은 컴포넌트 자체의 관점에서 짓는 것을 권장.
+
+    ~~~js
+    function Avatar(props) {
+    return (
+        <img className="Avatar"
+        src={props.user.avatarUrl}
+        alt={props.user.name}
+        />
+    );
+    }
+    ~~~
+
+* UserInfo 추출
+
+    ```js
+    function UserInfo(props) {
+    return (
+        <div className="UserInfo">
+        <Avatar user={props.user} />
+        <div className="UserInfo-name">
+            {props.user.name}
+        </div>
+        </div>
+    );
+    }
+    ```
+
+* 결과
+
+    ```js
+    function Comment(props) {
+    return (
+        <div className="Comment">
+        <UserInfo user={props.author} />
+        <div className="Comment-text">
+            {props.text}
+        </div>
+        <div className="Comment-date">
+            {formatDate(props.date)}
+        </div>
+        </div>
+    );
+    }
+    ```
+
+## 3.3 Props
+
+* props 는 Read-Only이어야 한다.
+* 모든 React 컴포넌트는 자신의 props를 다룰때 반드시 <strong>순수 함수</strong> 처럼 동작해야 한다.
+
+## 4. State & 생명주기
 
 ## 5. 이벤트 처리
 
