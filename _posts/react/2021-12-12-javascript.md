@@ -63,7 +63,7 @@ tags:
             return 'study Math .. Done.';
         }
         hello(){
-            return 'Hello, I\'m Student, My name is '+ this.name + ' !!';
+            return "Hello, I 'm Student, My name is "+ this.name + ' !!';
         }
     }
     var minsoo = new Student('Minsoo');
@@ -77,7 +77,7 @@ tags:
     class App extends Component{
         render(){
             return{
-                \<h1\>Hello React!!\</h1\>
+                <h1>Hello React!!</h1>
             }
         }
     }
