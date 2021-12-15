@@ -53,7 +53,7 @@ tags:
 
 ### 1.2 엘리먼트 변수
 
-* element를 저장하기 위해 벼수를 사용할 수 있음.
+* element를 저장하기 위해 변수를 사용할 수 있음.
 * 출력의 다른 부분은 변하지 않은 채로 컴포넌트의 일부를 조건부 렌더링.
 
 * 예시(로그아웃 & 로그인)
@@ -112,3 +112,107 @@ tags:
         document.getElementById('root')
     );
     ~~~
+
+### 1.3 '&&' 연산자로 If문 인라인 표현
+
+* 중괄호를 이용해서 '&&' 연산자를 사용할 표현식을 포함 할 수 있음.
+* \{True && expression\} => 항상 expression 의 상태
+* \{False && expression\} => 항상 false
+~~~js
+function Mailbox(props) {
+  const unreadMessages = props.unreadMessages;
+  return (
+    <div>
+      <h1>Hello!</h1>
+      {unreadMessages.length > 0 &&
+        <h2>
+          You have {unreadMessages.length} unread messages.
+        </h2>
+      }
+    </div>
+  );
+}
+
+const messages = ['React', 'Re: React', 'Re:Re: React'];
+ReactDOM.render(
+  <Mailbox unreadMessages={messages} />,
+  document.getElementById('root')
+);
+~~~
+
+* falsy 표현식을 반환시 뒤에 선언한 표현식은 건너뛰지만, falsy 표현식이 반환.
+
+    ~~~js
+    // <div>0</div> 이 반환됨.
+    render() {
+    const count = 0;    //  falsy
+    return (
+        <div>
+        { count && <h1>Messages: {count}</h1>}
+        </div>
+    );
+    }
+    ~~~
+
+* falsy 표현식 : false 같은 것; 즉, 아래와 같이 조건부가 기본적으로 false의 조건을 갖는 것이다.
+
+    ~~~js
+    // data에 해당 값들을 넣으면
+    // if(data) => data = false 가 되는 것들
+    console.log(!3);
+    console.log(!'hello');
+    console.log(!['array?']);
+    console.log(![]);
+    console.log(!{ value: 1 });
+    ~~~
+
+### 1.4 컴포넌트가 렌더링하는 것을 막기.
+
+* 다른 컴포넌트에 의해 렌더링될 때, 컴포넌트 자체를 숨기고자 랜더링 결과대신 null을 반환.
+* 예시
+
+    ```js
+    function WarningBanner(props){
+        if(!props.warn){
+            // 숨김
+            return null;
+        }
+        return (
+            // 표현
+                <div className="warning">
+                    Warning!
+                </div>
+        );
+    }
+
+    class Page extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {showWarning : true};
+            this.handleToggleClick = this.handleToggleClick.bind(this);
+        }
+
+        handleToggleClick(){
+            this.setState(state=> ({
+                showWarning: !state.showWarning
+            }));
+        }
+
+        render(){
+            return(
+                <div>
+                    <WarningBanner warn={this.state.showWarning} />
+                    <button onClick={this.handleToggleClick}>
+                    {this.state.showWarning ? 'Hide' : 'Show'}
+                    </button>
+                </div>
+
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <Page />,
+        document.getElementById('root')
+    );
+    ```
