@@ -133,7 +133,6 @@ function Mailbox(props) {
     </div>
   );
 }
-~~~
 
 const messages = ['React', 'Re: React', 'Re:Re: React'];
 ReactDOM.render(
