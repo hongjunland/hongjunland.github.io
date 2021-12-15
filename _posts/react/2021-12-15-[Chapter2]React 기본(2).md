@@ -466,7 +466,7 @@ ReactDOM.render(
     ~~~
 
 
-## 3.2 textarea 태그
+### 3.2 textarea 태그
 
 * HTML 에서 textarea 엘리먼트는 텍스트를 자식으로 정의함.
 * React에서는 value 속성을 대신 사용.
@@ -488,7 +488,7 @@ ReactDOM.render(
         ~~~
 
 
-## 3.3 select 태그
+### 3.3 select 태그
 
 * HTML 에서는 select는 드롭다운 목록
 * React에서는 selected 속성을 사용하는 대신, 최상단 select태그에 value 속성을 사용.
@@ -522,3 +522,96 @@ ReactDOM.render(
         }
     }
     ~~~
+
+* selelct 태그에 multiple 옵션을 허용한다면, value 속성에 배열을 전달할 수 있음.
+
+    ~~~js
+    <select multiple={true} value={['B', 'C']}>
+    ~~~
+
+### 3.4 file input 태그
+
+* HTML에서 \<input type="file"\> 는 사용자가 하나이상의 파일을 자신의 디바이스 저장소에서 서버로 업로드하거나 File API를 통해 JavaScript로 조작할 수 있음.
+* 값이 Read-Only 이여서, React에서는 <strong>비제어</strong> 컴포넌트임.
+
+### 3.5 다중 입력 제어
+
+* 다중 input 엘리먼트를 제어해야 할때, 각 엘리먼트에 name 속성을 추가하고 event.target.name 값을 통해 핸들러가 어떤 작업을 할지 선택할 수 있게 해줌.
+* 예시
+
+    ~~~js
+    class Reservation extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+            isGoing: true,
+            numberOfGuests: 2
+            };
+
+            this.handleInputChange = this.handleInputChange.bind(this);
+        }
+
+        handleInputChange(event) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
+
+            // input 태그의 name에 일치하는 state를 업데이트 하기위해서, ES6 computed propety name 구문 사용
+            // [태그이름 변수] : 해당 값
+            this.setState({
+            [name]: value
+            });
+        }
+
+        render() {
+            return (
+            <form>
+                <label>
+                Is going:
+                /*
+                    속성 정의 형식
+                    name=변수 이름
+                    type=event type
+                    value(checked)={변수 이름}
+                    onChange={this.이벤트 함수명}
+                */
+                <input
+                    name="isGoing"
+                    type="checkbox"
+                    checked={this.state.isGoing}
+                    onChange={this.handleInputChange} />
+                </label>
+                <br />
+                <label>
+                Number of guests:
+                <input
+                    name="numberOfGuests"
+                    type="number"
+                    value={this.state.numberOfGuests}
+                    onChange={this.handleInputChange} />
+                </label>
+            </form>
+            );
+        }
+    }
+    ~~~
+
+### 3.6 제어되는 Input Null 값
+
+* 제어 컴포넌트에 value prop을 지정하면, 의도 하지 않는 한 사용자가 변경할 수 없다. -> 수정 가능하면 실수로 value가 falsy(null, undefined) 하다는 것
+* 나쁜 예
+
+    ~~~js
+    ReactDOM.render(<input value="hi" />, mountNode);
+
+    setTimeout(function() {
+    ReactDOM.render(<input value={null} />, mountNode);
+    }, 1000);
+    ~~~
+
+### 3.7 제어 컴포넌트의 대안
+
+* 데이터를 변경할 수 있는 모든 방법에 대해 이벤트 핸들러를 작성한다는 것은 매우 지루하고 힘든 작업임.
+* 기존의 코드베이스를 React로 변경하고자 할 떄나 다른 것과 통합할 때 입력 폼을 구현하기 위한 대체기술인 <strong>비제어 컴포넌트</strong>가 있음.
+* 유효성 검사, 방문한 필드 추적 및 폼 제출 처리와 같은 완벽한 해결을 원한다면, <a href="https://formik.org/">Formik</a>이 가장 대중적임.
+* Formik은 제어 컴포넌트 및 state 관리에 기초하기 때문에, 기본기를 탄탄히 해야 함.
