@@ -218,6 +218,7 @@ ReactDOM.render(
         document.getElementById('root')
     );
     ```
+    
 ## 2. 리스트와 Key
 
 ### 2.1 JavaScript
