@@ -118,6 +118,7 @@ tags:
 * 중괄호를 이용해서 '&&' 연산자를 사용할 표현식을 포함 할 수 있음.
 * \{True && expression\} => 항상 expression 의 상태
 * \{False && expression\} => 항상 false
+
 ~~~js
 function Mailbox(props) {
   const unreadMessages = props.unreadMessages;
@@ -132,6 +133,7 @@ function Mailbox(props) {
     </div>
   );
 }
+~~~
 
 const messages = ['React', 'Re: React', 'Re:Re: React'];
 ReactDOM.render(
