@@ -615,3 +615,365 @@ ReactDOM.render(
 * 기존의 코드베이스를 React로 변경하고자 할 떄나 다른 것과 통합할 때 입력 폼을 구현하기 위한 대체기술인 <strong>비제어 컴포넌트</strong>가 있음.
 * 유효성 검사, 방문한 필드 추적 및 폼 제출 처리와 같은 완벽한 해결을 원한다면, <a href="https://formik.org/">Formik</a>이 가장 대중적임.
 * Formik은 제어 컴포넌트 및 state 관리에 기초하기 때문에, 기본기를 탄탄히 해야 함.
+
+## 4. State 끌어올리기(Lifting State Up)
+
+### 4.1 기본 개념
+
+* 동일한 데이터에 대한 변경사항을 여러 컴포넌트에 반영해야 할 필요가 있음.
+* 가장 가까운 공통 부모로 state를 끌어올리는 방법이 있음.
+* 기본 예시
+
+    ~~~js
+    function BoilingVerdict(props){
+        if(props.celsius >= 100) return <p>물이 끓습니다. </p>;
+        return <p>물이 끓지 않았습니다.</p>
+    }
+    ~~~
+
+    ~~~js
+    class Calculator extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {temperature: ''};
+    }
+
+    handleChange(e) {
+        this.setState({temperature: e.target.value});
+    }
+
+    render() {
+            const temperature = this.state.temperature;
+            return (
+            <fieldset>
+                <legend>Enter temperature in Celsius:</legend>
+                <input
+                value={temperature}
+                onChange={this.handleChange} />
+                <BoilingVerdict
+                celsius={parseFloat(temperature)} />
+            </fieldset>
+            );
+        }
+    }
+    ~~~
+
+* 두 번째 Input에 추가하기
+
+    ~~~js
+    //Calulator에서 TemperatureInput 컴포넌트를 빼냄.
+    const scaleNames = {
+    c: 'Celsius',
+    f: 'Fahrenheit'
+    };
+
+    class TemperatureInput extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {temperature: ''};
+    }
+
+    handleChange(e) {
+        this.setState({temperature: e.target.value});
+    }
+
+    render() {
+        const temperature = this.state.temperature;
+        const scale = this.props.scale;
+        return (
+        <fieldset>
+            <legend>Enter temperature in {scaleNames[scale]}:</legend>
+            <input value={temperature}
+                onChange={this.handleChange} />
+        </fieldset>
+        );
+    }
+    }
+
+    // 분리된 두 개의 온도 입력 필드를 렌더링 해줌
+    class Calculator extends React.Component {
+    render() {
+        return (
+        <div>
+            <TemperatureInput scale="c" />
+            <TemperatureInput scale="f" />
+        </div>
+        );
+    }
+    }
+    ~~~
+
+### 4.2 변환 함수 작성
+
+* 섭씨-화씨 변환함수
+    ~~~js
+    function toCelsius(fahrenheit) {
+    return (fahrenheit - 32) * 5 / 9;
+    }
+
+    function toFahrenheit(celsius) {
+    return (celsius * 9 / 5) + 32;
+    }
+    ~~~
+
+* 올바르지 않은 temperature 값에 대한 방지
+
+    ~~~js
+    function tryConvert(temperature, convert) {
+    const input = parseFloat(temperature);
+    if (Number.isNaN(input)) {
+        return '';
+    }
+    const output = convert(input);
+    const rounded = Math.round(output * 1000) / 1000;
+    return rounded.toString();
+    }
+    // tryConvert('abc', toCelsius) => 빈 문자열
+    // tryConvert('10.22', toFahrenheit) =>  '50.396'
+    ~~~
+
+### 4.3 State 끌어올리기
+
+* 두 가지 이상의 입력값이 서로의 것과 동기화된 상태를 유지해야함.
+* 상위 컴포넌트가 공유될 state를 소유하고 있으면, 각 input 필드의 값에 대한 "진리의 원천(source of truth)"로 인한 동기화.
+* 하위 컴포넌트에서 해당 변수{this.state.변수}를 {this.props.변수}로 대체 
+
+    ~~~js
+    render() {
+    // Before: const temperature = this.state.temperature;
+    // props은 Read-Only
+    const temperature = this.props.temperature;
+    // ...
+    ~~~
+* 해당 변수가 부모 props로 전달되므로, 하위 컴포넌트는 제어할 능력이 없음.
+* React에서는 보통 이문제를 컴포넌트를 "제어" 가능하게 만드는 방식으로 해결.
+* DOM \<input\>이 value와 onChange prop를 건네받는 것과 비슷한 방식으로, 사용자 정의된 하위 컴포넌트 역시 해당 변수(temperature)와 이벤트 함수 props를 자신의 부모 컴포넌트에 건네 받을수 있음.
+    ~~~js
+    handleChange(e) {
+        // Before: this.setState({temperature: e.target.value});
+        this.props.onTemperatureChange(e.target.value);
+        // ...
+    ~~~
+
+* 지역 state를 제거하고, 공유한 결과
+    ~~~js
+    class TemperatureInput extends React.Component {
+        // 지역 state 제거
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+        }
+        handleChange(e) {
+            // setState 대신 사용
+            this.props.onTemperatureChange(e.target.value);
+        }
+
+        render() {
+            const temperature = this.props.temperature;
+            const scale = this.props.scale;
+            return (
+            <fieldset>
+                <legend>Enter temperature in {scaleNames[scale]}:</legend>
+                <input value={temperature}
+                    onChange={this.handleChange} />
+            </fieldset>
+            );
+    }    
+    ~~~
+
+* 최종 소스코드
+
+    ~~~js
+    class Calculator extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+            this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+            this.state = {temperature: '', scale: 'c'};
+        }
+
+        handleCelsiusChange(temperature) {
+            this.setState({scale: 'c', temperature});
+        }
+
+        handleFahrenheitChange(temperature) {
+            this.setState({scale: 'f', temperature});
+        }
+
+        render() {
+            const scale = this.state.scale;
+            const temperature = this.state.temperature;
+            const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+            const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+
+            return (
+            <div>
+                <TemperatureInput
+                scale="c"
+                temperature={celsius}
+                onTemperatureChange={this.handleCelsiusChange} />
+                <TemperatureInput
+                scale="f"
+                temperature={fahrenheit}
+                onTemperatureChange={this.handleFahrenheitChange} />
+                <BoilingVerdict
+                celsius={parseFloat(celsius)} />
+            </div>
+            );
+        }
+    }
+    ~~~
+
+### 4.2 과정
+
+1. React는 DOM input 태그의 onChange에 지정된 함수를 호출.
+2. 하위컴포넌트(TemperatureInput)의 값 변경 메소드(handleChange)는 새로 입력된 값과 함께 공유한 이벤트(this.props.onTemperatureChange())를 호출.
+3. 이전 렌더링 단계에서, 각각 정의한 상위 컴포넌트에 지정할 메소드에 해당 하위 컴포넌트의 메소드를 지정함.
+4. 이 메소드들은 내부적으로 상위 컴포넌트가 수정한 입력 필드에 대한 것이 this.setState()를 호출하게 함으로써 React에게 자신을 다시 렌더링하도록 요청.
+5. React UI가 어떻게 보여야 하는지 알기 위해서, 상위 컴포넌트의 render()를 호출하고 단위 같은 기능(온도의 변환)에 대해 재계산.
+6. React는 상위 컴포넌트가 전달한 새 props와 함께 각 하위컴포넌트의 render()를 호출해서 UI가 어떻게 보여야 할지 파악.
+7. React는 상태를 표시하는 컴포넌트(BoilingVerdict)에게 데이터를 props를 건네면서 그 컴포넌트의 render()를 호출.
+8. React DOM은 물의 끓는 여부와 올바른 입력값을 일치시키는 작업과 함께 DOM을 갱신.
+9. 입력 필드의 값을 변경할 때 마다 동일한 절차를 거치고 동기화 된 상태로 유지됨.
+
+### 4.3 결론
+
+* React App 안에서 변경이 일어나는 데이터에 대해 "진리의 원천"을 하나만 두어야 함.
+* 하향식 데이터흐름을 권장
+* state를 끌어올리는 작업은 양방향 바인딩보단 더 많은 "보일러 플레이트"코드를 유발하지만, 디버깅이 쉽다는 장점이 있다.
+* 어떤 값이 props 또는 state에 의해 계산될 수 있다면, 아마도 그 값을 state에 두어서는 안 됨.
+
+## 5. 합성 vs 상속
+
+### 5.1 컴포넌트에 다른 컴포넌트를 담기
+
+* 어떤 컴포넌트는 어떤 자식 엘리먼트가 들어올지 미리 예상할수 없는 경우가 있다. -> 범용적인 'Box'역할을 하는 Sidebar혹은 Dialog와 같은 경우
+* children prop을 사용하여 자식 엘리먼트를 출력에 그대로 전달할 수 있다.
+
+    ~~~js
+    function FancyBorder(props) {
+    return (
+        <div className={'FancyBorder FancyBorder-' + props.color}>
+        {props.children}
+        </div>
+    );
+    }
+
+    // JSX를 중첩하여 임의의 자식을 전달
+    function WelcomeDialog() {
+    return (
+        // FancyBorder 컴포넌트의 자식 prop으로 전달
+        // FancyBorder는 {props.children}을 <div>안에 렌더링 하므로 각 엘리먼트들이 최종 출력 됨.
+        <FancyBorder color="blue">
+        <h1 className="Dialog-title">
+            Welcome
+        </h1>
+        <p className="Dialog-message">
+            Thank you for visiting our spacecraft!
+        </p>
+        </FancyBorder>
+    );
+    }
+    ~~~
+
+* 여러개의 "구멍"이 필요할 수도있는데, children대신에 자신만의 고유한 방식도 적용할 수도 있음.
+
+    ~~~js
+    function SplitPane(props) {
+    return (
+        <div className="SplitPane">
+        <div className="SplitPane-left">
+            {props.left}
+        </div>
+        <div className="SplitPane-right">
+            {props.right}
+        </div>
+        </div>
+    );
+    }
+
+    function App() {
+    return (
+        <SplitPane
+        left={
+            <Contacts />
+        }
+        right={
+            <Chat />
+        } />
+    );
+    }
+    ~~~
+
+### 5.2 특수화
+
+* React에서 합성을 통해서 "특수한 경우"인 컴포넌트를 해결 할 수있음.
+* 클래스를 적용할 때도 같음.
+* Dialog의 특수한 경우
+
+    ~~~js
+    // 특수한 경우
+    function Dialog(props) {
+    return (
+        <FancyBorder color="blue">
+        <h1 className="Dialog-title">
+            {props.title}
+        </h1>
+        <p className="Dialog-message">
+            {props.message}
+        </p>
+        </FancyBorder>
+    );
+    }
+
+    function WelcomeDialog() {
+    return (
+        <Dialog
+        title="Welcome"
+        message="Thank you for visiting our spacecraft!" />
+    );
+    }
+    ~~~
+
+* 클래스로 적용
+
+    ~~~js
+    class SignUpDialog extends React.Component {
+        constructor(props) {
+            super(props);
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSignUp = this.handleSignUp.bind(this);
+            this.state = {login: ''};
+        }
+
+        render() {
+            return (
+            <Dialog title="Mars Exploration Program"
+                    message="How should we refer to you?">
+                <input value={this.state.login}
+                    onChange={this.handleChange} />
+                <button onClick={this.handleSignUp}>
+                Sign Me Up!
+                </button>
+            </Dialog>
+            );
+        }
+
+        handleChange(e) {
+            this.setState({login: e.target.value});
+        }
+
+        handleSignUp() {
+            alert(`Welcome aboard, ${this.state.login}!`);
+        }
+    }
+    ~~~
+
+### 5.3 상속에 대해서
+
+* Facebook에서는 컴포넌트를 상속 계층 구조로 작성을 권장할만한 사례를 아직 찾지 못함.
+* props와 합성은 명시적이고, 안전한 방법으로 컴포넌트의 모양과 동작을 사용자화하는데 필요한 모든 유연성을 제공.
+* 컴포넌트가 원시 타입의 값, React 엘리먼트 혹은 함수등 어떤 props도 받을수 있음.
+* UI가 아닌 기능을 여러 컴포넌트에서 재사용 하기 원한다면, 별도의 JavaScript 모듈로 분리하는 것을 권장(상속대신에 컴포넌트에서 해당 모듈들을 import해서 사용한다.).
