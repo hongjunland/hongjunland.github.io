@@ -218,7 +218,7 @@ ReactDOM.render(
         document.getElementById('root')
     );
     ```
-    
+
 ## 2. 리스트와 Key
 
 ### 2.1 JavaScript
@@ -395,5 +395,130 @@ ReactDOM.render(
                 // 인라인 방식을 남용하기 보단, 컴포넌트로 추출하는 것을 권장.
             </ul>
         );
+    }
+    ~~~
+
+## 3. 폼(form) 엘리먼트
+
+* HTML 에서의 form 은 자체가 내부 상태를 가지므로, React의 다른 DOM 엘리먼트와 다르게 동작함.
+* 앞서 나올 \<input\>, \<textarea\>, \<selelct\> 태그들이 모두 비슷하게 동작하고, 구현하는데 value 속성을 허용.
+* 순수 HTML
+
+    ~~~js
+    <form>
+        <label>
+        Name:
+            // name을 입력받음
+            <input type="text" name="name"/>
+        </label>
+        <input type="submit" value="Submit"/>
+    </form>
+    ~~~
+
+* React에서 동일하게 사용 가능
+
+### 3.1 제어 컴포넌트(Controlled Component)
+
+* 대부분 JavaScript 함수로 폼의 submit을 처리하고 사용자가 폼에 입력한 데이터에 접근하도록 하는 것이 편리해서 이를 위한 표준 방식의 기술을 이용.
+* HTML에서 \<input\> , \<textarea\>, \<select\> 와 같은 폼 엘리먼트는 일반적으로 사용자의 입력을 기반으로 자신의 state를 관리하고 업데이트 함.
+* React에서는 변경할 수 있는 state가 일반적으로 컴포넌트의 state 속성에 유지되며, setState()에 의해 업데이트 됨.
+* React state를 신뢰 가능한 단일 출처(Single sourece of truth)로 만들어서 두 개의 요소를 결합할 수 있음.
+* 폼을 렌더링 하는 React 컴포넌트는 폼에 발생하는 사용자 입력값을 제어.
+* 이러한 방식으로 React에 의해 값이 제어되는 input form 엘리먼트를 <strong>제어 컴포넌트</strong>라고 칭함.
+* 예시
+
+    ~~~js
+    // value 속성은 폼 엘리먼트에 설정되므로 표시되는 값은 항상 this.state.value가 되고 React state는 신뢰가능한 단일출저가 된다.
+    // React state를 업데이트하기 위해, 모든 키 입력에서 handleChange가 동작하기 때문에 사용자가 입력할 때 보여지는 값이 업데이트 된다.
+    class NameForm extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={value: ''};
+            
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+        handleChange(event){
+            // 동작마다 React state 업데이트
+            this.setState({
+                value: event.target.value
+            })
+        }
+        handleSubmit(event){
+            // submit event
+            alert("He's name is " + this.state.value);
+            event.preventDefault();
+        }
+        render(){
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Name:
+                            <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+            );
+        }
+    }
+
+    ReactDOM.render(<NameForm/>, document.getElementById('root'));
+    ~~~
+
+
+## 3.2 textarea 태그
+
+* HTML 에서 textarea 엘리먼트는 텍스트를 자식으로 정의함.
+* React에서는 value 속성을 대신 사용.
+* 예시
+
+        ~~~js
+        // 이전 내용과 같음
+        render() {
+            return (
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                    Essay:
+                    <textarea value={this.state.value} onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                </form>
+            );
+        }
+        ~~~
+
+
+## 3.3 select 태그
+
+* HTML 에서는 select는 드롭다운 목록
+* React에서는 selected 속성을 사용하는 대신, 최상단 select태그에 value 속성을 사용.
+* 한 곳에서 업데이트만 하면 되기 때문에, 제어 컴포넌트에서 사용하기 편리함.
+* 예시
+
+    ~~~js
+    class FlavorForm extends React.Component{
+        constructor(props){
+            // selected 정의
+            this.state = {value="coconut"}
+            // 생략
+        }
+        // 이벤트정의 생략
+        render(){
+            return(
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                    Pick your favorite flavor:
+                        <select value={this.state.value} onChange={this.handleChange}>
+                            <option value="grapefruit">Grapefruit</option>
+                            <option value="lime">Lime</option>
+                            // 기존 HTML과 다르게 selected 속성을 여기에 정의하지 않음.
+                            <option value="coconut">Coconut</option>
+                            <option value="mango">Mango</option>
+                        </select>
+                    </label>
+                    <input type="submit" value="Submit" />
+            </form>
+            );
+        }
     }
     ~~~
