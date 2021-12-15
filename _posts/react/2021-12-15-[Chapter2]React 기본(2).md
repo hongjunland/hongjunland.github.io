@@ -50,3 +50,65 @@ tags:
         document.getElementById('root')
     );
     ```
+
+### 1.2 엘리먼트 변수
+
+* element를 저장하기 위해 벼수를 사용할 수 있음.
+* 출력의 다른 부분은 변하지 않은 채로 컴포넌트의 일부를 조건부 렌더링.
+
+* 예시(로그아웃 & 로그인)
+
+    ~~~js
+    // 로그인 버튼
+    function LoginButton(props){
+        return(
+            <button onClick={props.onClick}>
+            Login
+            </button>
+        );
+    }
+
+    // 로그아웃 버튼
+    function LogoutButton(props){
+        return(
+            <button onClick={props.onClick}>
+             Logout
+            </button>
+        );
+    }
+    ~~~
+
+    ~~~js
+    //로그인 제어
+    class LoginControl extends React.Component{
+        constructor(props){
+            super(props);
+            this.handleLoginClick = this.handleLoginClick.bind(this);
+            this.handleLogoutClick = this.handleLogoutClick.bind(this);
+            this.state = {isLoggedIn : false};
+        }
+        
+        handleLoginClick(){
+            this.setState({isLoggedIn : true})
+        }
+
+        handleLogoutClick(){
+            this.setState({isLoggedIn : false});
+        }
+
+        render(){
+            const isLoggedIn = this.state.isLoggedIn;
+            let button = (isLoggedIn) ? <LogoutButton onClick={this.handleLogoutClick}/> : <LoginButton onClick={this.handleLoginClick}/>;
+            return(
+                <div>
+                <Greeting isLoggedIn={isLoggedIn} />
+                {button}
+                </div>
+            );
+        }
+    }
+    ReactDOM.render(
+        <LoginControl />,
+        document.getElementById('root')
+    );
+    ~~~
