@@ -33,32 +33,31 @@ tags:
     ```
 ## 1. UI를 컴포넌트 계층으로 나누기
 
-    * 처음에 할 일은 모든 컴포넌트의 주변의 박스를 그리고 이름을 붙이는 것.
-    * 컴포넌트는 단일 책임 원칙을 기본으로 하는 것이 이상적임. 
-    * UI와 데이터 모델이 정보 아키텍처(Information Architecture)를 가지는 경향이 있어서 JSON과 UI가 잘 연결 됨.
-    * 예시
+* 처음에 할 일은 모든 컴포넌트의 주변의 박스를 그리고 이름을 붙이는 것.
+* 컴포넌트는 단일 책임 원칙을 기본으로 하는 것이 이상적임. 
+* UI와 데이터 모델이 정보 아키텍처(Information Architecture)를 가지는 경향이 있어서 JSON과 UI가 잘 연결 됨.
+* 예시
 
-        ![fitst](https://ko.reactjs.org/static/9381f09e609723a8bb6e4ba1a7713b46/90cbd/thinking-in-react-components.png)
-    
-        1. FilterableProductTable(노랑): 전체 포괄.
-        2. SearchBar(파랑): 모든 유저의 입력을 받음.
-        3. ProductTable(연두) : 유저의 입력기반으로 데이터 컬렉션을 필터링해서 보여줌.
-        4. ProductCategoryRow(하늘): 각 카테고리의 헤더를 보여줌.
-        5. ProductRow(빨강): 각 제품에 해당하는 행을 보여줌.
+    ![fitst](https://ko.reactjs.org/static/9381f09e609723a8bb6e4ba1a7713b46/90cbd/thinking-in-react-components.png)
 
-        *  ProductTable을 보면 "Name"과 "Price" 레이블을 포함한 테이블 헤더만을 가진 컴포넌트는 없음(독립된 컴포넌트를 생성할지는 선택사항)
-        * 헤더가 복잡해지면(정렬기능과 같은 추가) ProductTableHeader라는 컴포넌트를 따로 만들면 됨.
-    
-    * 결과
-    
-        * FilterableProductTable
+    1. FilterableProductTable(노랑): 전체 포괄.
+    2. SearchBar(파랑): 모든 유저의 입력을 받음.
+    3. ProductTable(연두) : 유저의 입력기반으로 데이터 컬렉션을 필터링해서 보여줌.
+    4. ProductCategoryRow(하늘): 각 카테고리의 헤더를 보여줌.
+    5. ProductRow(빨강): 각 제품에 해당하는 행을 보여줌.
 
-            * SearchBar
+    *  ProductTable을 보면 "Name"과 "Price" 레이블을 포함한 테이블 헤더만을 가진 컴포넌트는 없음(독립된 컴포넌트를 생성할지는 선택사항)
+    * 헤더가 복잡해지면(정렬기능과 같은 추가) ProductTableHeader라는 컴포넌트를 따로 만들면 됨.
 
-            * ProductTable
+* 결과
 
-                * ProductCategoryRow
-                * ProductRow
+    * FilterableProductTable
+
+        * SearchBar
+
+        * ProductTable
+
+            * ProductCategoryRow
+            * ProductRow
 
 
-    
