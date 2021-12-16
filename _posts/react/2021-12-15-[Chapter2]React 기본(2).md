@@ -1,5 +1,5 @@
 ---
-title: "[React][Chapter2] React 기본(2)"
+title: "[React][Chapter2-1] React 기본(2)"
 last_modified_at: "2021-12-15 16:20"
 categories:
     - react

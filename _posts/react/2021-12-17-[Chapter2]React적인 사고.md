@@ -1,5 +1,5 @@
 ---
-title: "[React][Chapter2] React적인 사고"
+title: "[React][Chapter2-2] React적인 사고"
 last_modified_at: "2021-12-17 01:00"
 categories:
     - react
