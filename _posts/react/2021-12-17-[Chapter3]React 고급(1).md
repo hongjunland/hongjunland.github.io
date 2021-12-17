@@ -46,9 +46,9 @@ tags:
     />  
     ~~~
 
-### 1.2 시멘틱 HTMl
+### 1.2 시멘틱 HTML
 
-* 가끔 React로 구성한 코드가 작동하게 하기위해 div태그와 같은 엘리먼트로 HTML의 의미를 꺠뜨리곤 함. (ex: ol, ul, dl, table)
+* 가끔 React로 구성한 코드가 작동하게 하기위해 div태그와 같은 엘리먼트로 HTML의 의미를 깨기도 함. (ex: ol, ul, dl, table)
 * <strong>React Fragment</strong>를 사용하여 여러 엘리먼트를 하나로 묶어주는 것을 권장.
 * [참고자료](https://developer.mozilla.org/ko/docs/Web/HTML/Element)
 * 예시
