@@ -403,3 +403,114 @@ tags:
     ~~~
 
 * Babel을 사용할 떄는 Babel이 동적 import를 인식할 수 있지만 변환하지는 않도록 해야함. ([babel-plugin-syntax-dynamic-import](https://yarnpkg.com/en/package/babel-plugin-syntax-dynamic-import) 사용)
+
+### 2.4 React.lazy
+
+* React.lazy 함수를 사용하면 동적 import를 사용해서 컴포넌트를 렌더링 할 수 있음.
+* React.lazy 와 Suspense는 아직 서버 사이드 렌더링을 할 수 없음.
+
+* Before
+
+    ~~~js
+    import OtherComponent from './OtherComponent';
+    ~~~
+
+* After
+
+    ~~~js
+    const OtherComponent = React.lazy(() => import('./OtherComponent'));
+    ~~~
+
+* 예시
+
+    ~~~js
+    import React, {Suspense} from 'react';
+    const OtherComponent = React.lazy(()=> import('./OtherComponent'));
+    
+    function() MyComponent{
+        return (
+            <div>
+                <Suspense fallback={<div>Loading...</div>}>
+                    <OtherComponent />
+                </Suspense>
+            </div>
+        );
+    }
+    ~~~
+
+    * MyComponent가 렌더링 될 때, OtherComponent를 포함한 번들을 자동으로 불러 옴.
+
+* import() 함수는 React 컴포넌트를 포함하며, default export 를 가진 모든 모듈로 결정되는 Promise로 반환해야 함.
+* lazy 컴포넌트는 Suspense 컴포넌트 하위에서 렌더링 되어야 함.
+* Suspense는 로딩화면과 같은 예비 컨텐츠를 보여주는 기능.
+* fallback props은 load 대기시간 동안 React 엘리먼트를 받아 들임.
+
+* Error Boundary(에러 경계)
+    
+    * Error Boundary를 통해 사용자의 경험과 복구 관리를 처리 할 수 있음.
+    * Error Boundary를 만들고 lazy 컴포넌트를 감싸면, 장애 발생시 에러 표시 가능.
+    
+        ~~~js
+        import MyErrorBoundary from './MyErrorBoundary';
+        // 다른 import 생략
+
+        const MyComponent = () => (
+        <div>
+            // Suspnse(lazy 컴포넌트)를 감싼다.
+            <MyErrorBoundary>
+            <Suspense fallback={<div>Loading...</div>}>
+                <section>
+                <OtherComponent />
+                <AnotherComponent />
+                </section>
+            </Suspense>
+            </MyErrorBoundary>
+        </div>
+        );
+        ~~~
+
+### 2.5 Route-based code splitting(라우트 기반 코드 분활)
+
+* 사용자의 경험을 해치지 않으면서, 번들을 균등하게 분배하는 가장 좋은 방법.
+* 사용 예시
+
+    ~~~js
+    import React, { Suspense, lazy } from 'react';
+    import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+    const Home = lazy(() => import('./routes/Home'));
+    const About = lazy(() => import('./routes/About'));
+
+    const App = () => (
+    <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+            <Route exact path="/" component={Home}/>
+            <Route path="/about" component={About}/>
+        </Switch>
+        </Suspense>
+    </Router>
+    );
+    ~~~
+
+### 2.6 Named Exports
+
+* React.lazy는 현재 default exports만 지원하므로, default로 이름을 재정의한 중간 모듈을 생성해야 함.
+* 예시
+    
+    ~~~js
+    // ManyComponents.js
+    export const MyComponent = /* ... */;
+    export const MyUnusedComponent = /* ... */;
+    ~~~
+
+    ~~~js
+    // MyComponent.js
+    export { MyComponent as default } from "./ManyComponents.js";
+    ~~~
+
+    ~~~js
+    // MyApp.js
+    import React, { lazy } from 'react';
+    const MyComponent = lazy(() => import("./MyComponent.js"));
+    ~~~
