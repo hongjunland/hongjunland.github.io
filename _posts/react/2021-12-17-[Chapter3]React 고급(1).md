@@ -514,3 +514,9 @@ tags:
     import React, { lazy } from 'react';
     const MyComponent = lazy(() => import("./MyComponent.js"));
     ~~~
+
+## 3. Context
+
+* Context를 이용하면, 일일이 props를 전달하지 않아도 컴포넌트 트리 전체에 데이터 제공 가능.
+
+### 3.1 Context 사용 시기
