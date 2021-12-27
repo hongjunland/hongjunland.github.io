@@ -1,5 +1,5 @@
 ---
-title: "[React][Chapter3] Next.js "
+title: "[React] Next.js "
 last_modified_at: "2021-12-17 02:31"
 categories:
     - react
