@@ -1,12 +1,13 @@
 ---
 title: "[React] Next.js "
-last_modified_at: "2021-12-17 02:31"
+last_modified_at: "2021-12-28 01:45"
 categories:
     - react
 tags:
     - javascript
     - front-end
     - react
+    - next.js
 ---
 
 ## 학습 목표
