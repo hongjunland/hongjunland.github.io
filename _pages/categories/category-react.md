@@ -1,5 +1,5 @@
 ---
-title: "react"
+title: "React"
 layout: archive
 permalink: categories/react
 author_profile: true

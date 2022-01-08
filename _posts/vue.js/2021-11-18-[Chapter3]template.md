@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter3] Template"
+title: "[Vue][Chapter3] Template"
 last_modified_at: "2021-11-18 23:01"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

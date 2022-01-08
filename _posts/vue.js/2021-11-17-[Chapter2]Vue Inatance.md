@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter2] Vue Instance"
+title: "[Vue][Chapter2] Vue Instance"
 last_modified_at: "2021-11-17 23:45"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

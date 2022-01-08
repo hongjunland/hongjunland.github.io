@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter5] axois"
+title: "[Vue][Chapter5] axois"
 last_modified_at: "2021-11-21 22:13"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

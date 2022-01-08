@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter7] vue-cli"
+title: "[Vue][Chapter7] vue-cli"
 last_modified_at: "2021-11-23 21:14"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

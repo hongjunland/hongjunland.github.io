@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter5] Vue component"
+title: "[Vue][Chapter5] Vue component"
 last_modified_at: "2021-11-20 22:45"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

@@ -1,10 +1,11 @@
 ---
-title: "[Vue.js][Chapter8] vuex"
+title: "[Vue][Chapter8] vuex"
 last_modified_at: "2021-11-24 22:01"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
+    - vuex
     - javascript
     - front-end
 ---

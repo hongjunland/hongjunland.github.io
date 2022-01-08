@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter6] router"
+title: "[Vue][Chapter6] router"
 last_modified_at: "2021-11-22 20:14"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

@@ -1,10 +1,10 @@
 ---
-title: "[Vue.js][Chapter4] Vue method(2)"
+title: "[Vue][Chapter4] Vue method(2)"
 last_modified_at: "2021-11-20 00:45"
 categories:
-    - vue.js
+    - vue
 tags:
-    - vue.js
+    - vue
     - javascript
     - front-end
 ---

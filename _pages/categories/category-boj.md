@@ -1,5 +1,5 @@
 ---
-title: "boj"
+title: "BOJ"
 layout: archive
 permalink: categories/boj
 author_profile: true
