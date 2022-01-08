@@ -1,12 +1,10 @@
 ---
-title: "[Algorithm][최단 경로 알고리즘] 최단 경로"
+title: "[algorithm] 최단 경로"
 last_modified_at: 2021-12-07 23:12
 categories:
-    - Algorithm
-    - 최단경로
-
+    - algorithm
 tags:
-    - Algorithm
+    - algorithm
     - 최단경로
 ---
 
