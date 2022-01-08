@@ -6,6 +6,9 @@ categories:
 tags:
     - algorithm
     - 최단경로
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 
 ## 1. 최단 경로 문제란?
