@@ -1,5 +1,5 @@
 ---
-title: "[React] JavaScript Basic"
+title: "[React]JavaScript Basic"
 last_modified_at: "2021-12-12 21:10"
 categories:
     - react

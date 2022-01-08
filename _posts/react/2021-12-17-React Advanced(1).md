@@ -1,5 +1,5 @@
 ---
-title: "[React][Chapter3] React 고급(1)"
+title: "[React][Chapter3]React Advanced(1)"
 last_modified_at: "2021-12-17 02:31"
 categories:
     - react

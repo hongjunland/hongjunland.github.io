@@ -214,6 +214,8 @@ defaults:
       comments: true
       share: true
       related: true
+      # 사이드바
+      sidebar_main: true
   # _pages
   - scope:
       path: "_pages"
