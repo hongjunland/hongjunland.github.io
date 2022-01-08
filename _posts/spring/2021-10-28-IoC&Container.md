@@ -1,5 +1,5 @@
 ---
-title: "[Spring][Chapter2] IoC&Container"
+title: "[Spring] IoC&Container"
 last_modified_at: 2021-10-27 00:55
 categories:
     - spring

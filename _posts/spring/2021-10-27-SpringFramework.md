@@ -1,5 +1,5 @@
 ---
-title: "[Spring][Chapter1] SpringFramework"
+title: "[Spring] SpringFramework"
 last_modified_at: 2021-10-27 00:55
 categories:
     - spring
