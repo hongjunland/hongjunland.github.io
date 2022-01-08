@@ -7,6 +7,10 @@ tags:
     - javascript
     - front-end
     - react
+    
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 
 ## 1. React 공부 하기 전, 알아야 할 JavaScript 개념

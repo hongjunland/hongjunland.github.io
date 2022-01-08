@@ -6,6 +6,9 @@ categories:
 tags:
     - spring
     - Java
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 # 1. IoC (Inversion of Control)
 ## 1.1 IoC란?

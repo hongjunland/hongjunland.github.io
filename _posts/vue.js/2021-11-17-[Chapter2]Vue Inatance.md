@@ -7,6 +7,9 @@ tags:
     - vue
     - javascript
     - front-end
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 ## 1. Vue Instance
 * 모든 Vue app은 Vue 함수로 새로운 <strong>Vue Instace</strong>를 만드는 것부터 시작한다.

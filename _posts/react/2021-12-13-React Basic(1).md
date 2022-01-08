@@ -7,6 +7,9 @@ tags:
     - javascript
     - front-end
     - react
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 
 ## 학습 목표

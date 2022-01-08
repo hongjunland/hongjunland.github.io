@@ -7,6 +7,9 @@ tags:
     - vue
     - javascript
     - front-end
+toc: true
+toc_sticky: true
+toc_label: "Contents"
 ---
 
 ## 1. vue-router
