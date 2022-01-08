@@ -34,8 +34,8 @@ toc_label: "Contents"
         {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
         {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
     ];
-
-    ``
+    ```
+    
 ## Step1. UI를 컴포넌트 계층으로 나누기
 
 * 처음에 할 일은 모든 컴포넌트의 주변의 박스를 그리고 이름을 붙이는 것.
