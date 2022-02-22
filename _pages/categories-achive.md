@@ -27,3 +27,8 @@ toc_label: "Contents"
 {% for post in site.categories.git %} {% include archive-single2.html type=page.entries_layout %} {% endfor %}
 
 
+## Block Chain
+### NFT
+{% for post in site.categories.blockchain %} {% include archive-single2.html type=page.entries_layout %} {% endfor %}
+
+
