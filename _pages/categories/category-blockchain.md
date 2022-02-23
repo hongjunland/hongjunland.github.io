@@ -1,5 +1,5 @@
 ---
-title: "BlockChain"
+title: "NFT"
 layout: archive
 permalink: categories/blockchain
 author_profile: true

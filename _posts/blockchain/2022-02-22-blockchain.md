@@ -1,10 +1,10 @@
 ---
-title: "[BlockChain]Block Chain"
+title: "[BlockChain] Block Chain"
 last_modified_at: "2022-02-22 10:06"
 categories:
     - blockchain
 tags:
-    - nft
+    - NFT
     - react
     - javascript
     

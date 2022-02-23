@@ -57,6 +57,14 @@
                 {% endif %}
             {% endfor %}
         </ul>
+        <span class="nav__sub-title">Block Chain</span>
+        <ul>
+            {% for category in site.categories %}
+                {% if category[0] == "blockchain" %}
+                    <li><a href="/categories/blockchain" class="">NFT ({{category[1].size}})</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
         
   </ul>
 </nav>
